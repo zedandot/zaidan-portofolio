@@ -47,7 +47,7 @@ export default function ThreeDParallaxUnfurlingGallery({
   // Keep all transforms on the same raw page-scroll progress so the grid
   // remains aligned with the scroll position, including when scrolling slowly.
   const bannerWidth = useTransform(scrollYProgress, [0, 0.16], ["90vw", "100vw"]);
-  const bannerHeight = useTransform(scrollYProgress, [0, 0.16], ["80dvh", "100dvh"]);
+  const bannerHeight = useTransform(scrollYProgress, [0, 0.16], ["75dvh", "100dvh"]);
   const bannerRadius = useTransform(scrollYProgress, [0, 0.16], ["28px", "0px"]);
   const bannerBorderWidth = useTransform(scrollYProgress, [0, 0.16], ["3px", "0px"]);
 
@@ -70,7 +70,8 @@ export default function ThreeDParallaxUnfurlingGallery({
 
   const mobileColumns = useMemo(() => repeatedColumns(items, 3), [items]);
   const desktopColumns = useMemo(() => repeatedColumns(items, 4), [items]);
-  const headingOpacity = useTransform(scrollYProgress, [0, 0.12, 0.2], [1, 1, 0]);
+  const headingOpacity = useTransform(scrollYProgress, [0, 0.1, 0.16], [1, 0.7, 0]);
+  const headingY = useTransform(scrollYProgress, [0, 0.16], [0, -20]);
 
   return (
     <section
@@ -80,6 +81,19 @@ export default function ThreeDParallaxUnfurlingGallery({
       className="relative h-[320vh] w-full bg-background text-foreground selection:bg-accent selection:text-white md:h-[400vh]"
     >
       <div className="sticky top-0 flex h-dvh w-full items-center justify-center overflow-hidden md:h-svh">
+        {/* Gallery Title in the white/cream area above the banner */}
+        <motion.div
+          style={{ opacity: headingOpacity, y: headingY }}
+          className="pointer-events-none absolute top-3 sm:top-5 md:top-6 inset-x-0 z-30 px-5 text-center"
+        >
+          <p className="mb-2 text-[9px] uppercase tracking-[0.28em] text-gray-500 sm:text-[11px]">
+            Personal Gallery · All Moments
+          </p>
+          <h2 className="font-display text-2xl font-800 leading-none tracking-[-0.04em] text-foreground sm:text-4xl md:text-5xl lg:text-6xl">
+            LIFE IN FRAMES
+          </h2>
+        </motion.div>
+
         <motion.div
           style={{
             width: bannerWidth,
@@ -90,17 +104,6 @@ export default function ThreeDParallaxUnfurlingGallery({
           }}
           className="relative mx-auto flex max-w-[1920px] items-center justify-center overflow-hidden border-solid bg-background"
         >
-          <motion.div
-            style={{ opacity: headingOpacity }}
-            className="pointer-events-none absolute inset-x-0 top-[10%] z-30 px-5 text-center sm:top-[9%]"
-          >
-            <p className="mb-3 text-[9px] uppercase tracking-[0.28em] text-gray-500 sm:text-[11px]">
-              Personal Gallery · All Moments
-            </p>
-            <h2 className="font-display text-3xl font-800 leading-none tracking-[-0.05em] text-foreground sm:text-5xl md:text-7xl">
-              LIFE IN FRAMES
-            </h2>
-          </motion.div>
 
           <div
             className="absolute inset-0 flex items-center justify-center overflow-hidden"
