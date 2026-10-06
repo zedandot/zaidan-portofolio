@@ -15,6 +15,7 @@ export default function WelcomeIntro({ onComplete, forceShow = false }: WelcomeI
 
   useEffect(() => {
     const hasSeenIntro = sessionStorage.getItem("zed-intro-seen") === "true";
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsVisible(forceShow || !hasSeenIntro);
   }, [forceShow]);
 

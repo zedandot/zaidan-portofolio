@@ -44,7 +44,7 @@ export function WorksWheel({ items, label = "Works", className = "", ...props }:
   const turn = React.useRef(0);
   const target = React.useRef(0);
   const dragY = React.useRef<number | null>(null);
-  const settleTimer = React.useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const settleTimer = React.useRef<ReturnType<typeof setTimeout> | number | undefined>(undefined);
   const [active, setActive] = React.useState(0);
   const [stage, setStage] = React.useState({ width: 0, height: 0 });
   const [reducedMotion, setReducedMotion] = React.useState(false);
