@@ -65,7 +65,7 @@ export default function Hero() {
         <motion.div variants={fadeInUp} className="hidden md:flex items-center gap-6 text-xs text-gray-500 font-medium">
           <span>Based in Bogor, ID</span>
           <span>•</span>
-            <span>Interface Engineering × Visual Systems</span>
+          <span>Interface Engineering × Visual Systems</span>
         </motion.div>
       </motion.div>
 
@@ -168,23 +168,23 @@ export default function Hero() {
         {/* CTAs */}
         <div className="flex flex-col items-stretch sm:items-start gap-4">
           <div className="grid grid-cols-2 gap-3 sm:flex sm:items-center sm:gap-4">
-          <a
-            href="#work"
-            className="magnetic-link min-h-11 px-4 sm:px-6 py-3 bg-foreground text-background text-center text-[11px] sm:text-xs font-semibold tracking-[0.12em] sm:tracking-[0.15em] uppercase hover:bg-accent hover:text-white rounded-full shadow-sm hover:shadow-md"
-          >
-            Explore Work ↓
-          </a>
-          <a
-            href="#contact"
-            className="magnetic-link min-h-11 px-4 sm:px-6 py-3 border border-foreground/30 text-foreground text-center text-[11px] sm:text-xs font-semibold tracking-[0.12em] sm:tracking-[0.15em] uppercase hover:border-accent hover:text-accent rounded-full"
-          >
-            Contact Me
-          </a>
+            <a
+              href="#work"
+              className="magnetic-link min-h-11 px-4 sm:px-6 py-3 bg-foreground text-background text-center text-[11px] sm:text-xs font-semibold tracking-[0.12em] sm:tracking-[0.15em] uppercase hover:bg-accent hover:text-white rounded-full shadow-sm hover:shadow-md"
+            >
+              Explore Work ↓
+            </a>
+            <a
+              href="#contact"
+              className="magnetic-link min-h-11 px-4 sm:px-6 py-3 border border-foreground/30 text-foreground text-center text-[11px] sm:text-xs font-semibold tracking-[0.12em] sm:tracking-[0.15em] uppercase hover:border-accent hover:text-accent rounded-full"
+            >
+              Contact Me
+            </a>
           </div>
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-4 gap-y-2 text-[9px] sm:text-[10px] tracking-[0.14em] sm:tracking-[0.16em] uppercase text-gray-500">
             <span><span className="text-accent">●</span> Available for select projects</span>
             <span className="hidden sm:inline text-gray-300">/</span>
-            <span>React · WebGIS · Identity Systems</span>
+            <span>UI/UX · Branding · Web & App Development</span>
           </div>
         </div>
 

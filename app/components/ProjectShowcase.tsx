@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import ScrollReveal from "./ScrollReveal";
 import ProjectModal from "./ProjectModal";
+import CoverflowCarousel from "./CoverflowCarousel";
 import {
   projectsData,
   certificatesData,
@@ -183,6 +183,8 @@ export default function ProjectShowcase() {
   const [activeTab, setActiveTab] = useState<TabType>("projects");
   const [selectedModalItem, setSelectedModalItem] = useState<ProjectItem | CertificateItem | null>(null);
   const [modalType, setModalType] = useState<"project" | "certificate">("project");
+  const [selectedProjectIndex, setSelectedProjectIndex] = useState(0);
+  const [selectedCertificateIndex, setSelectedCertificateIndex] = useState(0);
 
   const openProjectDetails = (project: ProjectItem) => {
     setSelectedModalItem(project);
@@ -232,16 +234,6 @@ export default function ProjectShowcase() {
     },
   };
 
-  const cardVariants = {
-    hidden: { opacity: 0, y: 24, scale: 0.98 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: { duration: 0.48, ease: [0.22, 1, 0.36, 1] as const },
-    },
-  };
-
   return (
     <section id="work" className="section-shell py-16 md:py-32 px-4 sm:px-6 md:px-12 text-foreground relative overflow-hidden">
       {/* Subtle warm accent radial background glow matching cream theme */}
@@ -278,11 +270,10 @@ export default function ProjectShowcase() {
               {/* Tab 1: Projects */}
               <button
                 onClick={() => setActiveTab("projects")}
-                className={`relative flex min-h-11 items-center justify-center gap-1 px-1.5 py-2.5 rounded-xl text-[9px] sm:text-sm font-semibold tracking-[0.08em] uppercase transition-all duration-300 whitespace-nowrap sm:gap-2 sm:px-8 sm:py-3 sm:tracking-wider ${
-                  activeTab === "projects"
+                className={`relative flex min-h-11 items-center justify-center gap-1 px-1.5 py-2.5 rounded-xl text-[9px] sm:text-sm font-semibold tracking-[0.08em] uppercase transition-all duration-300 whitespace-nowrap sm:gap-2 sm:px-8 sm:py-3 sm:tracking-wider ${activeTab === "projects"
                     ? "text-background shadow-md"
                     : "text-gray-500 hover:text-foreground hover:bg-black/5"
-                }`}
+                  }`}
               >
                 {activeTab === "projects" && (
                   <motion.div
@@ -307,9 +298,8 @@ export default function ProjectShowcase() {
                     <polyline points="8 6 2 12 8 18" />
                   </svg>
                   <span>Projects</span>
-                  <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-bold sm:text-[10px] sm:px-2 ${
-                    activeTab === "projects" ? "bg-accent text-white" : "bg-gray-300/80 text-gray-600"
-                  }`}>
+                  <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-bold sm:text-[10px] sm:px-2 ${activeTab === "projects" ? "bg-accent text-white" : "bg-gray-300/80 text-gray-600"
+                    }`}>
                     {projectsData.length}
                   </span>
                 </span>
@@ -318,11 +308,10 @@ export default function ProjectShowcase() {
               {/* Tab 2: Certificates */}
               <button
                 onClick={() => setActiveTab("certificates")}
-                className={`relative flex min-h-11 items-center justify-center gap-1 px-1.5 py-2.5 rounded-xl text-[9px] sm:text-sm font-semibold tracking-[0.08em] uppercase transition-all duration-300 whitespace-nowrap sm:gap-2 sm:px-8 sm:py-3 sm:tracking-wider ${
-                  activeTab === "certificates"
+                className={`relative flex min-h-11 items-center justify-center gap-1 px-1.5 py-2.5 rounded-xl text-[9px] sm:text-sm font-semibold tracking-[0.08em] uppercase transition-all duration-300 whitespace-nowrap sm:gap-2 sm:px-8 sm:py-3 sm:tracking-wider ${activeTab === "certificates"
                     ? "text-background shadow-md"
                     : "text-gray-500 hover:text-foreground hover:bg-black/5"
-                }`}
+                  }`}
               >
                 {activeTab === "certificates" && (
                   <motion.div
@@ -348,9 +337,8 @@ export default function ProjectShowcase() {
                   </svg>
                   <span className="hidden min-[380px]:inline sm:inline">Certificates</span>
                   <span className="inline min-[380px]:hidden sm:hidden">Certs</span>
-                  <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-bold sm:text-[10px] sm:px-2 ${
-                    activeTab === "certificates" ? "bg-accent text-white" : "bg-gray-300/80 text-gray-600"
-                  }`}>
+                  <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-bold sm:text-[10px] sm:px-2 ${activeTab === "certificates" ? "bg-accent text-white" : "bg-gray-300/80 text-gray-600"
+                    }`}>
                     {certificatesData.length}
                   </span>
                 </span>
@@ -359,11 +347,10 @@ export default function ProjectShowcase() {
               {/* Tab 3: Tech Stack */}
               <button
                 onClick={() => setActiveTab("tech")}
-                className={`relative flex min-h-11 items-center justify-center gap-1 px-1.5 py-2.5 rounded-xl text-[9px] sm:text-sm font-semibold tracking-[0.08em] uppercase transition-all duration-300 whitespace-nowrap sm:gap-2 sm:px-8 sm:py-3 sm:tracking-wider ${
-                  activeTab === "tech"
+                className={`relative flex min-h-11 items-center justify-center gap-1 px-1.5 py-2.5 rounded-xl text-[9px] sm:text-sm font-semibold tracking-[0.08em] uppercase transition-all duration-300 whitespace-nowrap sm:gap-2 sm:px-8 sm:py-3 sm:tracking-wider ${activeTab === "tech"
                     ? "text-background shadow-md"
                     : "text-gray-500 hover:text-foreground hover:bg-black/5"
-                }`}
+                  }`}
               >
                 {activeTab === "tech" && (
                   <motion.div
@@ -390,9 +377,8 @@ export default function ProjectShowcase() {
                   </svg>
                   <span className="hidden min-[380px]:inline sm:inline">Tech</span>
                   <span className="inline min-[380px]:hidden sm:hidden">Tech</span>
-                  <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-bold sm:text-[10px] sm:px-2 ${
-                    activeTab === "tech" ? "bg-accent text-white" : "bg-gray-300/80 text-gray-600"
-                  }`}>
+                  <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-bold sm:text-[10px] sm:px-2 ${activeTab === "tech" ? "bg-accent text-white" : "bg-gray-300/80 text-gray-600"
+                    }`}>
                     {techStackData.length}
                   </span>
                 </span>
@@ -403,227 +389,139 @@ export default function ProjectShowcase() {
 
         {/* Tab Content Display */}
         <AnimatePresence mode="wait">
-          {/* 1. PROJECTS TAB (3-column cards matching theme) */}
+          {/* 1. PROJECTS TAB */}
           {activeTab === "projects" && (
             <motion.div
-              key="projects-cream-grid"
-              variants={cardGridVariants}
+              key="projects-coverflow"
               initial="hidden"
               animate="visible"
               exit={{ opacity: 0, y: -15 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8"
+              variants={cardGridVariants}
+              className="mx-auto max-w-5xl"
             >
-              {projectsData.map((project) => (
+              <CoverflowCarousel
+                slides={projectsData.map((project) => ({
+                  src: project.image,
+                  alt: project.title,
+                  title: project.title,
+                  subtitle: `${project.category} · ${project.year}`,
+                }))}
+                onSlideChange={setSelectedProjectIndex}
+                cardWidth="clamp(180px, 54vw, 340px)"
+                label="Portfolio project carousel"
+              />
+
+              {projectsData[selectedProjectIndex] && (
                 <motion.article
-                  key={project.id}
-                  variants={cardVariants}
-                  whileHover={{ y: -4 }}
-                  className="surface-card group flex flex-col justify-between rounded-3xl p-4 sm:p-6 transition-all duration-300 hover:border-accent"
+                  key={projectsData[selectedProjectIndex].id}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.25 }}
+                  className="surface-card mx-auto mt-7 max-w-2xl rounded-2xl p-5 text-center sm:mt-9 sm:rounded-3xl sm:p-7"
                 >
-                  <div>
-                    {/* Project Thumbnail Image */}
-                    <div className="relative aspect-[16/11] sm:aspect-[16/10] w-full rounded-2xl overflow-hidden mb-5 bg-[#E8E5DE] border border-gray-200">
-                      <Image
-                        src={project.image}
-                        alt={project.title}
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-                        quality={68}
-                      />
-                      {/* Category tag */}
-                      <span className="absolute top-3 left-3 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-2.5 sm:px-3 py-1 rounded-full bg-background/95 text-accent border border-[#D4D1CA] shadow-sm">
-                        {project.category}
-                      </span>
-                    </div>
-
-                    {/* Title */}
-                    <h3 className="font-display font-700 text-lg sm:text-xl text-foreground group-hover:text-accent transition-colors leading-snug mb-2.5">
-                      {project.title}
-                    </h3>
-
-                    {/* Description */}
-                    <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed mb-4">
-                      {project.description}
-                    </p>
-
-                    {/* Tech Chips */}
-                    <div className="flex flex-wrap gap-1.5 mb-6">
-                      {project.tags.slice(0, 3).map((tag) => (
-                        <span
-                          key={tag}
-                          className="text-[11px] font-medium tracking-wide px-2.5 py-1 rounded-full bg-background text-gray-600 border border-gray-200"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                      {project.tags.length > 3 && (
-                        <span className="text-[11px] font-medium px-2 py-1 rounded-full bg-background text-gray-400 border border-gray-200">
-                          +{project.tags.length - 3}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Bottom Action Bar */}
-                  <div className="flex items-center justify-between gap-3 pt-4 border-t border-gray-200">
-                    {project.liveUrl ? (
-                      <a
-                        href={project.liveUrl}
-                        target={project.liveUrl.startsWith("http") ? "_blank" : undefined}
-                        rel="noopener noreferrer"
-                        className="inline-flex min-h-10 items-center gap-1.5 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-accent hover:underline group/link"
+                  <p className="mx-auto max-w-xl text-sm leading-relaxed text-gray-600 sm:text-base">
+                    {projectsData[selectedProjectIndex].description}
+                  </p>
+                  <div className="mt-4 flex flex-wrap justify-center gap-1.5">
+                    {projectsData[selectedProjectIndex].tags.slice(0, 4).map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full border border-gray-200 bg-background px-2.5 py-1 text-[10px] font-medium tracking-wide text-gray-600 sm:text-[11px]"
                       >
-                        <span>Live Demo</span>
-                        <svg
-                          width="12"
-                          height="12"
-                          viewBox="0 0 16 16"
-                          fill="none"
-                          className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform"
-                        >
-                          <path
-                            d="M3 13L13 3M13 3H5M13 3V11"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
+                    {projectsData[selectedProjectIndex].liveUrl && (
+                      <a
+                        href={projectsData[selectedProjectIndex].liveUrl}
+                        target={projectsData[selectedProjectIndex].liveUrl?.startsWith("http") ? "_blank" : undefined}
+                        rel="noopener noreferrer"
+                        className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[#D4D1CA] bg-background px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-foreground transition-colors hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                      >
+                        Lihat project <span aria-hidden="true">↗</span>
                       </a>
-                    ) : (
-                      <span className="text-xs text-gray-400">Demo Private</span>
                     )}
-
                     <button
-                      onClick={() => openProjectDetails(project)}
-                      className="inline-flex min-h-10 items-center gap-1 text-xs font-semibold px-4 py-2 rounded-full bg-[#E8E5DE] hover:bg-foreground hover:text-background text-foreground transition-all duration-200"
+                      onClick={() => openProjectDetails(projectsData[selectedProjectIndex])}
+                      className="inline-flex min-h-10 items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-background transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
                     >
-                      <span>Details</span>
-                      <span>→</span>
+                      <span>Lihat detail project</span>
+                      <span aria-hidden="true">↗</span>
                     </button>
                   </div>
                 </motion.article>
-              ))}
+              )}
             </motion.div>
           )}
 
-          {/* 2. CERTIFICATES TAB (3-column cards matching theme) */}
+          {/* 2. CERTIFICATES TAB */}
           {activeTab === "certificates" && (
             <motion.div
-              key="certificates-cream-grid"
-              variants={cardGridVariants}
+              key="certificates-coverflow"
               initial="hidden"
               animate="visible"
               exit={{ opacity: 0, y: -15 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8"
+              variants={cardGridVariants}
+              className="mx-auto max-w-5xl"
             >
-              {certificatesData.map((cert) => (
+              <CoverflowCarousel
+                slides={certificatesData.map((cert) => ({
+                  src: cert.image,
+                  alt: cert.title,
+                  title: cert.title,
+                  subtitle: `${cert.issuer} · ${cert.date}`,
+                }))}
+                onSlideChange={setSelectedCertificateIndex}
+                cardWidth="clamp(220px, 68vw, 460px)"
+                cardHeightRatio={0.75}
+                imageFit="contain"
+                label="Certificates carousel"
+              />
+
+              {certificatesData[selectedCertificateIndex] && (
                 <motion.article
-                  key={cert.id}
-                  variants={cardVariants}
-                  whileHover={{ y: -4 }}
-                  className="surface-card group flex flex-col justify-between rounded-3xl p-4 sm:p-6 transition-all duration-300 hover:border-accent"
+                  key={certificatesData[selectedCertificateIndex].id}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.25 }}
+                  className="surface-card mx-auto mt-7 max-w-2xl rounded-2xl p-5 text-center sm:mt-9 sm:rounded-3xl sm:p-7"
                 >
-                  <div>
-                    {/* Certificate Visual Banner */}
-                    <div className="relative aspect-[16/11] sm:aspect-[16/10] w-full rounded-2xl overflow-hidden mb-5 bg-[#E8E5DE] border border-gray-200 flex items-center justify-center">
-                      <Image
-                        src={cert.image}
-                        alt={cert.title}
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        className="object-cover opacity-30 group-hover:scale-105 transition-transform duration-500 ease-out"
-                        quality={64}
-                      />
-                      
-                      {/* Center Credential Badge */}
-                      <div className="relative z-10 flex flex-col items-center text-center p-4">
-                        <div className="w-12 h-12 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center text-accent shadow-sm mb-2 group-hover:scale-110 transition-transform">
-                          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <circle cx="12" cy="8" r="6" />
-                            <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" />
-                          </svg>
-                        </div>
-                        <span className="text-xs font-bold text-foreground tracking-wide">
-                          Verified Credential
-                        </span>
-                        <span className="text-[11px] text-gray-500">
-                          {cert.issuer}
-                        </span>
-                      </div>
-
-                      {/* Year badge */}
-                      <span className="absolute top-3 right-3 text-[10px] font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-background text-accent border border-[#D4D1CA]">
-                        {cert.date}
+                  <p className="mx-auto max-w-xl text-sm leading-relaxed text-gray-600 sm:text-base">
+                    {certificatesData[selectedCertificateIndex].description}
+                  </p>
+                  <div className="mt-4 flex flex-wrap justify-center gap-1.5">
+                    {certificatesData[selectedCertificateIndex].skills.slice(0, 4).map((skill) => (
+                      <span
+                        key={skill}
+                        className="rounded-full border border-gray-200 bg-background px-2.5 py-1 text-[10px] font-medium tracking-wide text-gray-600 sm:text-[11px]"
+                      >
+                        {skill}
                       </span>
-                    </div>
-
-                    {/* Title */}
-                    <h3 className="font-display font-700 text-xl text-foreground group-hover:text-accent transition-colors leading-snug mb-2">
-                      {cert.title}
-                    </h3>
-
-                    <p className="text-xs font-semibold text-accent mb-2">
-                      {cert.issuer}
-                    </p>
-                    <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed mb-4">
-                      {cert.description}
-                    </p>
-
-                    {/* Skills pills */}
-                    <div className="flex flex-wrap gap-1.5 mb-6">
-                      {cert.skills.slice(0, 3).map((skill) => (
-                        <span
-                          key={skill}
-                          className="text-[11px] font-medium tracking-wide px-2.5 py-1 rounded-full bg-background text-gray-600 border border-gray-200"
-                        >
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
+                    ))}
                   </div>
-
-                  {/* Bottom Action Bar */}
-                  <div className="flex items-center justify-between gap-3 pt-4 border-t border-gray-200">
-                    {cert.credentialUrl ? (
+                  <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
+                    {certificatesData[selectedCertificateIndex].credentialUrl && (
                       <a
-                        href={cert.credentialUrl}
+                        href={certificatesData[selectedCertificateIndex].credentialUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex min-h-10 items-center gap-1.5 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-accent hover:underline group/link"
+                        className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[#D4D1CA] bg-background px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-foreground transition-colors hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                       >
-                        <span>Credential</span>
-                        <svg
-                          width="12"
-                          height="12"
-                          viewBox="0 0 16 16"
-                          fill="none"
-                          className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform"
-                        >
-                          <path
-                            d="M3 13L13 3M13 3H5M13 3V11"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
+                        Lihat credential <span aria-hidden="true">↗</span>
                       </a>
-                    ) : (
-                      <span className="text-xs text-gray-400">Official Certificate</span>
                     )}
-
                     <button
-                      onClick={() => openCertificateDetails(cert)}
-                      className="inline-flex min-h-10 items-center gap-1 text-xs font-semibold px-4 py-2 rounded-full bg-[#E8E5DE] hover:bg-foreground hover:text-background text-foreground transition-all duration-200"
+                      onClick={() => openCertificateDetails(certificatesData[selectedCertificateIndex])}
+                      className="inline-flex min-h-10 items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-background transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
                     >
-                      <span>Details</span>
-                      <span>→</span>
+                      <span>Lihat detail sertifikat</span>
+                      <span aria-hidden="true">↗</span>
                     </button>
                   </div>
                 </motion.article>
-              ))}
+              )}
             </motion.div>
           )}
 

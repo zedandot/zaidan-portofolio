@@ -1,8 +1,11 @@
 "use client";
 
 import ScrollReveal from "./ScrollReveal";
+import { useLenis } from "lenis/react";
 
 export default function Footer() {
+  const lenis = useLenis();
+
   return (
     <footer className="border-t border-gray-200 py-10 md:py-14 px-6 md:px-12 bg-background">
       <div className="max-w-[1400px] mx-auto">
@@ -24,7 +27,7 @@ export default function Footer() {
                 href="#top"
                 onClick={(e) => {
                   e.preventDefault();
-                  window.scrollTo({ top: 0, behavior: "smooth" });
+                  lenis?.scrollTo(0);
                 }}
                 className="text-xs tracking-[0.15em] uppercase text-gray-500 hover:text-accent transition-colors font-medium"
               >

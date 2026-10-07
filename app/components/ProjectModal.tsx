@@ -131,7 +131,7 @@ export default function ProjectModal({ isOpen, onClose, item, type }: ProjectMod
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4 rounded-2xl bg-white/70 border border-gray-200/90 shadow-2xs">
                 <div>
                   <span className="block text-[10px] font-bold uppercase tracking-[0.16em] text-gray-400">
-                    Role
+                    Peran
                   </span>
                   <p className="mt-1 font-display font-700 text-xs sm:text-sm text-foreground">
                     {project.role}
@@ -139,7 +139,7 @@ export default function ProjectModal({ isOpen, onClose, item, type }: ProjectMod
                 </div>
                 <div>
                   <span className="block text-[10px] font-bold uppercase tracking-[0.16em] text-gray-400">
-                    Klien / Konteks
+                    Klien
                   </span>
                   <p className="mt-1 font-display font-700 text-xs sm:text-sm text-foreground truncate">
                     {project.clientOrContext}
@@ -172,7 +172,7 @@ export default function ProjectModal({ isOpen, onClose, item, type }: ProjectMod
                   <div className="flex items-center gap-2 mb-3">
                     <span className="w-2 h-2 rounded-full bg-accent" />
                     <h4 className="font-display font-700 text-sm uppercase tracking-[0.12em] text-foreground">
-                      Tantangan & Latar Belakang
+                      Konteks
                     </h4>
                   </div>
                   <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
@@ -185,7 +185,7 @@ export default function ProjectModal({ isOpen, onClose, item, type }: ProjectMod
                   <div className="flex items-center gap-2 mb-3">
                     <span className="w-2 h-2 rounded-full bg-emerald-600" />
                     <h4 className="font-display font-700 text-sm uppercase tracking-[0.12em] text-foreground">
-                      Solusi & Eksekusi
+                      Pendekatan
                     </h4>
                   </div>
                   <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
@@ -200,10 +200,10 @@ export default function ProjectModal({ isOpen, onClose, item, type }: ProjectMod
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <h4 className="font-display font-800 text-sm sm:text-base uppercase tracking-[0.12em] text-foreground">
-                    Ruang Lingkup & Deliverables
+                    Yang dikerjakan
                   </h4>
                   <span className="text-[11px] font-mono text-gray-400">
-                    {project.deliverables.length} Deliverables
+                    {project.deliverables.length} item
                   </span>
                 </div>
 
@@ -233,36 +233,37 @@ export default function ProjectModal({ isOpen, onClose, item, type }: ProjectMod
             {/* Certificate Details View */}
             {!isProject && certificate && (
               <div className="space-y-6">
-                {/* Credential ID Card */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-white/70 border border-gray-200/90">
-                  <div>
-                    <span className="block text-[10px] font-bold uppercase tracking-[0.16em] text-gray-400">
-                      Credential ID Resmi
-                    </span>
-                    <p className="mt-1 font-mono text-sm sm:text-base font-bold text-foreground">
-                      {certificate.credentialId}
-                    </p>
+                {certificate.credentialId && (
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-white/70 border border-gray-200/90">
+                    <div>
+                      <span className="block text-[10px] font-bold uppercase tracking-[0.16em] text-gray-400">
+                        Nomor sertifikat
+                      </span>
+                      <p className="mt-1 font-mono text-sm sm:text-base font-bold text-foreground">
+                        {certificate.credentialId}
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => handleCopyCredential(certificate.credentialId!)}
+                      className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-[#E8E5DE] hover:bg-foreground hover:text-background text-foreground transition-all duration-200"
+                    >
+                      {copiedId ? (
+                        <>
+                          <span className="text-emerald-600">✓</span>
+                          <span>Tersalin!</span>
+                        </>
+                      ) : (
+                        <>
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                          </svg>
+                          <span>Salin nomor</span>
+                        </>
+                      )}
+                    </button>
                   </div>
-                  <button
-                    onClick={() => handleCopyCredential(certificate.credentialId)}
-                    className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-[#E8E5DE] hover:bg-foreground hover:text-background text-foreground transition-all duration-200"
-                  >
-                    {copiedId ? (
-                      <>
-                        <span className="text-emerald-600">✓</span>
-                        <span>Tersalin!</span>
-                      </>
-                    ) : (
-                      <>
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                        </svg>
-                        <span>Salin ID</span>
-                      </>
-                    )}
-                  </button>
-                </div>
+                )}
 
                 {/* Competencies Validated */}
                 {certificate.competencies && certificate.competencies.length > 0 && (
@@ -289,7 +290,7 @@ export default function ProjectModal({ isOpen, onClose, item, type }: ProjectMod
             {/* Tags & Tools */}
             <div className="space-y-2.5 pt-2 border-t border-gray-200/80">
               <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-gray-400">
-                {isProject ? "Teknologi & Tooling" : "Keahlian Terkait"}
+                {isProject ? "Tools" : "Keahlian"}
               </span>
               <div className="flex flex-wrap gap-2">
                 {(isProject ? project?.tags : certificate?.skills)?.map((tag) => (

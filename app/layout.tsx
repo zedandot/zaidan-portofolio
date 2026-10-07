@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, Outfit } from "next/font/google";
+import "lenis/dist/lenis.css";
 import "./globals.css";
+import SmoothScrollProvider from "./components/SmoothScrollProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -16,9 +18,9 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Zaidan — Creative Developer & Visual Designer",
+  title: "Zaidan Creative Developer & Visual Designer",
   description:
-    "Portfolio of Muhamad Zaidan — a creative developer and visual designer specializing in digital experiences, branding, UI/UX, and web development.",
+    "Portfolio of Muhamad Zaidan a creative developer and visual designer specializing in digital experiences, branding, UI/UX, and web development.",
   keywords: [
     "creative developer",
     "visual designer",
@@ -30,7 +32,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Muhamad Zaidan" }],
   openGraph: {
-    title: "Zaidan — Creative Developer & Visual Designer",
+    title: "Zaidan Creative Developer & Visual Designer",
     description: "I design visual experiences and build digital products.",
     type: "website",
     locale: "en_US",
@@ -47,7 +49,9 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${outfit.variable} antialiased`}
     >
-      <body className="min-h-screen">{children}</body>
+      <body className="min-h-screen">
+        <SmoothScrollProvider>{children}</SmoothScrollProvider>
+      </body>
     </html>
   );
 }

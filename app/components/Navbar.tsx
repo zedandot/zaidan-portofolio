@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll } from "framer-motion";
+import { useLenis } from "lenis/react";
 
 const navLinks = [
   { label: "WORK", href: "#work" },
@@ -14,11 +15,39 @@ const navLinks = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
+  const { scrollYProgress } = useScroll();
+  const lenis = useLenis();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    let frame = 0;
+
+    const updateActiveSection = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(() => {
+        frame = 0;
+        const active = [...navLinks]
+          .reverse()
+          .find((link) => {
+            const section = document.querySelector<HTMLElement>(link.href);
+            return section && section.getBoundingClientRect().top <= 150;
+          });
+        setActiveSection(active?.href ?? "");
+      });
+    };
+
+    updateActiveSection();
+    window.addEventListener("scroll", updateActiveSection, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", updateActiveSection);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
   }, []);
 
   // Prevent body scroll when mobile menu is open
@@ -35,14 +64,19 @@ export default function Navbar() {
 
   const handleNavClick = (href: string) => {
     setMobileOpen(false);
-    const el = document.querySelector(href);
+    const el = document.querySelector<HTMLElement>(href);
     if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
+      lenis?.scrollTo(el, { offset: -96 });
     }
   };
 
   return (
     <>
+      <motion.div
+        aria-hidden="true"
+        className="fixed left-0 right-0 top-0 z-[60] h-[2px] origin-left bg-accent"
+        style={{ scaleX: scrollYProgress }}
+      />
       <motion.nav
         className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
           scrolled
@@ -57,6 +91,10 @@ export default function Navbar() {
           {/* Logo */}
           <a
             href="#"
+            onClick={(event) => {
+              event.preventDefault();
+              lenis?.scrollTo(0);
+            }}
             className="font-display font-900 text-2xl md:text-3xl tracking-[-0.03em] text-foreground hover:text-accent transition-colors"
           >
             ZED<span className="text-accent">.</span>
@@ -72,7 +110,10 @@ export default function Navbar() {
                   e.preventDefault();
                   handleNavClick(link.href);
                 }}
-                className="nav-link text-xs font-semibold tracking-[0.15em] uppercase text-foreground/80 hover:text-accent transition-colors duration-200"
+                aria-current={activeSection === link.href ? "location" : undefined}
+                className={`nav-link text-xs font-semibold tracking-[0.15em] uppercase text-foreground/80 hover:text-accent transition-colors duration-200 ${
+                  activeSection === link.href ? "is-active" : ""
+                }`}
                 whileHover={{ y: -2 }}
               >
                 {link.label}
@@ -133,7 +174,10 @@ export default function Navbar() {
                       e.preventDefault();
                       handleNavClick(link.href);
                     }}
-                    className="group flex min-h-16 items-center justify-between rounded-3xl border border-gray-200 bg-white/45 px-5 font-display text-3xl font-800 tracking-[-0.04em] text-foreground transition-colors hover:border-accent hover:text-accent"
+                    aria-current={activeSection === link.href ? "location" : undefined}
+                    className={`group flex min-h-16 items-center justify-between rounded-3xl border border-gray-200 bg-white/45 px-5 font-display text-3xl font-800 tracking-[-0.04em] text-foreground transition-colors hover:border-accent hover:text-accent ${
+                      activeSection === link.href ? "border-accent text-accent" : ""
+                    }`}
                     initial={{ opacity: 0, y: 22 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 14 }}

@@ -29,7 +29,7 @@ export interface CertificateItem {
   title: string;
   issuer: string;
   date: string;
-  credentialId: string;
+  credentialId?: string;
   image: string;
   credentialUrl?: string;
   skills: string[];
@@ -48,272 +48,317 @@ export interface TechItem {
 export const projectsData: ProjectItem[] = [
   {
     id: "asa-karya-alam-field-operations",
-    title: "CV Asa Karya Alam — Field Operations Management System & Project Monitoring Portal",
+    title: "Field Operations & Project Monitoring",
     category: "Web Application",
     role: "Frontend & API Integration",
     clientOrContext: "CV Asa Karya Alam (Contractor)",
-    year: "2024",
+    year: "2025",
     timeline: "3 Bulan Pengerjaan",
     description:
-      "Aplikasi web internal untuk monitoring progres lapangan, penjadwalan inspeksi proyek kontraktor, dan koordinasi logistik secara terpusat.",
+      "Portal internal untuk mencatat progres pekerjaan, jadwal inspeksi, dan laporan lapangan CV Asa Karya Alam.",
     longDescription:
-      "Sistem web operasional khusus yang dibangun untuk CV Asa Karya Alam guna memantau proyek konstruksi dan operasional lapangan. Menggantikan proses manual berbasis chat grup dan spreadsheet menjadi portal terpusat dengan log aktivitas real-time.",
+      "Portal ini merangkum pembaruan proyek dan laporan tim lapangan dalam satu tempat.",
     problemStatement:
-      "Sebelumnya, pelaporan progres tim lapangan dan mandor proyek tersebar di chat WhatsApp pribadi dan file catatan manual. Kondisi ini membuat timeline inspeksi sering bentrok, dokumentasi foto fisik sulit dilacak kembali, dan kantor pusat terlambat merespons kendala teknis di lapangan.",
+      "Laporan progres dan jadwal inspeksi tersebar di chat dan spreadsheet, sehingga pembaruan proyek sulit dipantau dari satu tempat.",
     solution:
-      "Merancang web portal responsif yang ringan diakses via smartphone lapangan. Dilengkapi modul rekapitulasi progres milestone harian, integrasi Google Calendar API untuk jadwal visit inspeksi, dan form unggah foto log progres terstruktur.",
-    image: "/projects/webgis.jpg",
+      "Membuat portal responsif dengan ringkasan progres, jadwal inspeksi yang terhubung ke Google Calendar, dan formulir laporan lapangan dengan unggahan foto.",
+    image: "/projectserti/cvasa.jpg",
     tags: ["Web Application", "React", "Google Calendar API", "Tailwind CSS", "Field Operations", "REST API"],
     githubUrl: "https://github.com/zedandot",
     liveLabel: "Source Repository",
     deliverables: [
       {
-        title: "Dashboard Monitoring Milestone",
-        detail: "Pelacakan progres pekerjaan harian dan mingguan dengan status approval bertingkat dari mandor ke manajemen.",
+        title: "Ringkasan progres",
+        detail: "Melihat status pekerjaan harian dan mingguan.",
       },
       {
-        title: "Sinkronisasi Google Calendar API",
-        detail: "Jadwal visit inspeksi lapangan dan tenggat waktu pekerjaan tersinkronisasi otomatis ke kalender kerja tim.",
+        title: "Jadwal inspeksi",
+        detail: "Jadwal kunjungan lapangan terhubung ke Google Calendar.",
       },
       {
-        title: "Log Lapangan & Dokumentasi Real-time",
-        detail: "Formulir input catatan kendala lapangan beserta unggah dokumentasi foto berstempel tanggal dan lokasi.",
+        title: "Laporan lapangan",
+        detail: "Mencatat kendala dan mengunggah foto progres pekerjaan.",
       },
       {
-        title: "Mobile-First Responsive Interface",
-        detail: "Layout dirancang ringan dan cepat dibuka lewat koneksi seluler di lokasi proyek tanpa hambatan performa.",
+        title: "Tampilan responsif",
+        detail: "Portal dapat digunakan melalui ponsel maupun desktop.",
       },
     ],
     highlights: [
-      "Dashboard monitoring progres milestone pekerjaan harian dan mingguan",
-      "Sinkronisasi jadwal inspeksi via Google Calendar API",
-      "Penyimpanan log dokumentasi foto progres lapangan terstruktur",
-      "Antarmuka responsif yang ringan diakses mandor via smartphone",
+      "Ringkasan progres pekerjaan harian dan mingguan",
+      "Jadwal inspeksi terhubung ke Google Calendar",
+      "Catatan kendala dan foto progres lapangan",
+      "Tampilan untuk ponsel dan desktop",
     ],
   },
   {
     id: "153-kreatif-company-profile-cms-finance",
-    title: "153 Kreatif — Company Profile, Custom CMS & Financial Management System",
+    title: "Company Profile, CMS & Project Finance",
     category: "Fullstack Web Application",
     role: "Fullstack Web Developer",
     clientOrContext: "PT 153 Kreatif (Creative Agency)",
-    year: "2024",
+    year: "2025",
     timeline: "2 Bulan Pengerjaan",
     description:
-      "Platform web komprehensif yang mengintegrasikan profil agensi publik, Content Management System (CMS) custom, dan modul pembukuan kas proyek.",
+      "Website profil PT 153 Kreatif dengan CMS portofolio dan pencatatan keuangan proyek.",
     longDescription:
-      "Aplikasi web terpadu untuk PT 153 Kreatif yang menggabungkan halaman profil agensi modern dengan back-office internal. Memungkinkan tim internal memperbarui showcase portofolio secara mandiri dan merekap arus kas proyek dalam satu database.",
+      "Satu aplikasi untuk mengelola konten website dan catatan keuangan proyek.",
     problemStatement:
-      "PT 153 Kreatif membutuhkan website profil modern untuk kebutuhan pitching klien, sekaligus sistem internal agar tim konten tidak perlu meminta bantuan developer setiap kali ingin merilis studi kasus baru, serta pencatatan cash flow proyek yang tidak lagi mengandalkan spreadsheet terpisah.",
+      "Tim membutuhkan website profil untuk calon klien, cara memperbarui konten sendiri, dan pencatatan keuangan proyek yang lebih rapi.",
     solution:
-      "Membangun arsitektur monolitik Laravel dengan pemisahan peran: front-facing company profile yang cepat dan SEO-ready, serta back-office admin panel terproteksi untuk manajemen konten artikel/portofolio dan pembukuan keuangan proyek.",
-    image: "/projects/uiux.jpg",
+      "Membangun aplikasi Laravel berisi halaman profil publik, panel CMS, dan fitur pencatatan pemasukan serta pengeluaran proyek.",
+    image: "/projectserti/153kreatif.jpg",
     tags: ["Laravel", "PHP", "MySQL", "Tailwind CSS", "Custom CMS", "Financial Records", "Multi-Role Auth"],
     githubUrl: "https://github.com/zedandot",
     liveLabel: "Source Repository",
     deliverables: [
       {
-        title: "Custom Content Management System",
-        detail: "Panel admin intuitif untuk publikasi studi kasus klien, artikel blog, dan katalog layanan agensi secara mandiri.",
+        title: "CMS portofolio",
+        detail: "Tim dapat mengelola studi kasus, artikel, dan layanan melalui panel admin.",
       },
       {
-        title: "Modul Pencatatan Finansial Proyek",
-        detail: "Pencatatan invoice masuk, biaya operasional produksi kreatif, dan rekapitulasi laba bersih tiap kontrak klien.",
+        title: "Catatan keuangan proyek",
+        detail: "Mencatat pemasukan dan pengeluaran setiap proyek.",
       },
       {
-        title: "Multi-Role Authentication",
-        detail: "Hak akses terpisah antara Content Creator (editor portofolio) dan Manajemen (keuangan & data sensitif agensi).",
+        title: "Hak akses pengguna",
+        detail: "Akses admin disesuaikan dengan peran pengguna.",
       },
       {
-        title: "High-Performance Agency Landing Page",
-        detail: "Desain antarmuka berkarakter kuat dengan interaksi halus, tipografi editorial, dan form lead inquiry klien.",
+        title: "Website profil agensi",
+        detail: "Halaman publik untuk memperkenalkan agensi dan layanannya.",
       },
     ],
     highlights: [
-      "Arsitektur Laravel monolitik terstruktur dengan autentikasi multi-role",
-      "Custom CMS dinamis untuk publikasi studi kasus dan artikel agensi",
-      "Modul pencatatan pemasukan & pengeluaran operasional per proyek",
-      "Desain landing page modern berfokus pada conversion klien",
+      "Website profil agensi",
+      "CMS untuk portofolio, artikel, dan layanan",
+      "Pencatatan pemasukan dan pengeluaran proyek",
+      "Hak akses admin berdasarkan peran pengguna",
     ],
   },
   {
     id: "sudin-jakarta-utara-design-competition",
-    title: "Juara 1 Desain Grafis — Kreatifitas Pemuda Jakarta Utara 2026",
+    title: "Juara 1 Desain Grafis Jakarta Utara 2026",
     category: "Visual Design & Competition",
     role: "Visual & Graphic Designer",
     clientOrContext: "Sudinpora Jakarta Utara (Pemprov DKI)",
     year: "2026",
     timeline: "Kompetisi Tingkat Kota",
     description:
-      "Karya poster desain grafis bertema pemuda kreatif yang berhasil meraih Penghargaan Juara 1 pada ajang Kreatifitas Pemuda Jakarta Utara 2026.",
+      "Poster bertema kreativitas pemuda yang meraih Juara 1 di kompetisi Jakarta Utara 2026.",
     longDescription:
-      "Karya visual kompetisi yang dirancang untuk menyampaikan narasi pergerakan generasi muda pesisir Jakarta Utara dalam berinovasi dan berkontribusi nyata. Berhasil meraih Juara 1 setelah melalui penilaian ketat oleh dewan juri Sudinpora DKI Jakarta.",
+      "Poster ini dibuat untuk kompetisi Desain Grafis Kreatifitas Pemuda Jakarta Utara 2026.",
     problemStatement:
-      "Kompetisi menuntut peserta merumuskan narasi visual yang mampu menggugah kesadaran generasi muda mengenai peran aktif di era modern, dengan batasan waktu pengerjaan ketat serta penilaian pada orisinalitas ide, kekuatan komposisi, dan keterbacaan pesan.",
+      "Poster perlu menyampaikan tema kompetisi dengan jelas dalam satu komposisi visual.",
     solution:
-      "Mengeksplorasi gaya editorial kontemporer dengan perpaduan tipografi dinamis, photo-manipulation simbolik di Adobe Photoshop, dan pemilihan warna kontras tinggi yang merefleksikan energi anak muda.",
-    image: "/projects/branding.jpg",
+      "Menggabungkan tipografi editorial, olah foto, dan warna kontras menggunakan Adobe Photoshop.",
+    image: "/projectserti/Juara 1 Desain Grafis.jpg",
     tags: ["Graphic Design", "Adobe Photoshop", "Typography", "Visual Identity", "Digital Imaging", "Award Winner"],
     liveUrl: "https://www.linkedin.com/in/muhamad-zaidan30/",
     liveLabel: "Lihat Bukti Prestasi (LinkedIn)",
     deliverables: [
       {
-        title: "Peringkat Juara 1 Tingkat Kota",
-        detail: "Karya terpilih sebagai pemenang pertama dari puluhan perwakilan peserta se-wilayah Jakarta Utara.",
+        title: "Juara 1",
+        detail: "Pemenang pertama kategori Desain Grafis di tingkat Jakarta Utara.",
       },
       {
-        title: "Eksplorasi Tipografi Editorial",
-        detail: "Hierarki tipografi huruf besar yang berani dan berfungsi sebagai jangkar komposisi visual utama.",
+        title: "Tipografi",
+        detail: "Tipografi editorial sebagai bagian utama komposisi poster.",
       },
       {
-        title: "Digital Imaging & Compositing",
-        detail: "Teknik manipulasi foto berlapis, lighting adjustment presisi, dan grading tekstur berkarakter di Adobe Photoshop.",
+        title: "Olah foto",
+        detail: "Penggabungan dan penyesuaian foto di Adobe Photoshop.",
       },
       {
-        title: "High-Resolution Print Production",
-        detail: "Finalisasi file siap cetak format besar standar 300 DPI dengan profil warna CMYK presisi untuk pameran fisik.",
+        title: "File final",
+        detail: "File poster disiapkan untuk kebutuhan kompetisi.",
       },
     ],
     highlights: [
-      "Meraih Juara 1 dari puluhan peserta perwakilan institusi dan komunitas di Jakarta Utara",
-      "Eksplorasi tipografi editorial berani yang dipadukan dengan manipulasi foto simbolik",
-      "Penerapan hierarki visual kontras tinggi agar narasi poster langsung terbaca",
-      "Eksekusi color grading dan vector assets terstruktur untuk standar cetak 300 DPI",
+      "Juara 1 Desain Grafis Kreatifitas Pemuda Jakarta Utara 2026",
+      "Tipografi editorial dan olah foto",
+      "Komposisi poster dengan warna kontras",
+      "Dibuat menggunakan Adobe Photoshop",
     ],
   },
   {
     id: "153-creative-design-assets",
-    title: "PT 153 Creative — Digital Visual Assets & Marketing Collaterals",
+    title: "Visual Assets & Marketing Materials",
     category: "Brand & Commercial Design",
     role: "Freelance Graphic Designer",
     clientOrContext: "PT 153 Creative (Remote)",
-    year: "2026",
+    year: "2025",
     timeline: "Freelance Contract",
     description:
-      "Produksi aset desain visual reguler untuk kebutuhan kampanye media sosial, materi presentasi pitch deck, dan materi visual klien agensi.",
+      "Membuat materi visual untuk media sosial, presentasi, dan kebutuhan promosi klien PT 153 Creative.",
     longDescription:
-      "Kolaborasi freelance remote bersama PT 153 Creative untuk menangani volume kebutuhan desain visual harian dan materi komersial klien agensi di berbagai sektor industri.",
+      "Pekerjaan freelance jarak jauh untuk kebutuhan desain PT 153 Creative.",
     problemStatement:
-      "Agensi membutuhkan eksekusi materi visual yang konsisten dan cepat untuk memenuhi jadwal posting konten harian serta materi visual presentasi untuk pitching calon klien baru tanpa menurunkan standar kualitas brand.",
+      "Agensi memerlukan materi promosi dan presentasi yang mengikuti brief serta panduan visualnya.",
     solution:
-      "Membangun sistem template desain modular, panduan tipografi, serta workflow produksi aset cepat menggunakan Adobe Photoshop dan Canva sehingga setiap output tetap mematuhi brand guideline agensi.",
-    image: "/projects/socialmedia.jpg",
+      "Mengerjakan desain berdasarkan brief dan panduan visual agensi menggunakan Adobe Photoshop dan Canva.",
+    image: "/projectserti/153design.jpg",
     tags: ["Brand Assets", "Adobe Photoshop", "Canva", "Social Media Design", "Deck Design", "Typography"],
     liveUrl: "https://www.linkedin.com/in/muhamad-zaidan30/",
     liveLabel: "Lihat Profil & Portofolio (LinkedIn)",
     deliverables: [
       {
-        title: "30+ Aset Visual Media Sosial",
-        detail: "Format carousel edukasi, promotional banner, dan infografis engagement dengan tone visual seragam.",
+        title: "Materi media sosial",
+        detail: "Desain untuk konten, promosi, dan informasi agensi.",
       },
       {
-        title: "Pitch Deck & Proposal Styling",
-        detail: "Perancangan layout slide presentasi bisnis dengan data visualisasi yang bersih dan profesional.",
+        title: "Materi presentasi",
+        detail: "Merapikan tata letak slide pitch deck dan proposal.",
       },
       {
-        title: "Asset Kit & Brand Guidelines",
-        detail: "Pembuatan kit elemen grafis reusable (icon, shape, palette) untuk efisiensi tim marketing internal.",
+        title: "Aset visual",
+        detail: "Menyiapkan elemen desain yang dapat digunakan kembali.",
       },
       {
-        title: "Workflow Kolaborasi Remote",
-        detail: "Koordinasi berkala berbasis brief dan revisi cepat sesuai kalender konten bulanan yang dinamis.",
+        title: "Kolaborasi jarak jauh",
+        detail: "Mengerjakan revisi berdasarkan brief dan masukan tim.",
       },
     ],
     highlights: [
-      "Merancang 30+ aset visual media sosial dengan grid layout dan tone warna konsisten",
-      "Pembuatan materi presentasi dan deck pitching klien dengan tata letak data yang bersih",
-      "Kolaborasi remote berbasis sprint untuk revisi cepat aset promosi",
-      "Workflow terorganisir dengan asset kit siap pakai untuk tim marketing",
+      "Desain konten dan promosi media sosial",
+      "Tata letak pitch deck dan proposal",
+      "Aset visual untuk kebutuhan agensi",
+      "Kolaborasi dan revisi berdasarkan brief",
     ],
   },
   {
     id: "himavo-micro-it-community-design",
-    title: "Himavo Micro IT — Community Multimedia & Event Branding",
+    title: "Multimedia & Event Branding",
     category: "Multimedia & Community Branding",
     role: "Multimedia Designer",
     clientOrContext: "Himavo Micro IT (IPB University)",
     year: "2024 — 2025",
     timeline: "1 Tahun Periode Kepengurusan",
     description:
-      "Pengembangan identitas visual acara, desain materi promosi seminar teknologi, dan infografis edukatif seputar rekayasa perangkat lunak.",
+      "Membuat materi publikasi dan visual acara sebagai anggota Divisi Multimedia Himavo Micro IT.",
     longDescription:
-      "Menjabat sebagai staf divisi Multimedia di organisasi mahasiswa keilmuan teknologi informasi IPB University. Bertanggung jawab atas seluruh kebutuhan visual acara, seminar nasional, workshop pemrograman, dan publikasi digital.",
+      "Berkontribusi di Divisi Multimedia Himavo Micro IT selama periode 2024/2025.",
     problemStatement:
-      "Sebagai organisasi mahasiswa di bidang teknologi informasi, Himavo Micro IT membutuhkan peremajaan visual agar publikasi workshop, seminar nasional, dan rekrutmen terlihat lebih modern, kredibel, dan menarik bagi mahasiswa gen-Z.",
+      "Materi acara, workshop, dan rekrutmen membutuhkan format visual yang konsisten.",
     solution:
-      "Mengembangkan bahasa visual modern bergaya neo-brutalism dan tech-minimalism untuk feed Instagram organisasi, backdrop panggung, ID card kepanitiaan, hingga virtual background.",
-    image: "/projects/branding.jpg",
+      "Mendesain poster, konten media sosial, backdrop, dan materi pendukung bersama tim acara dan humas.",
+    image: "/projectserti/himavomicroit.jpg",
     tags: ["Event Branding", "Photoshop", "Canva", "Community", "Infographic Design", "Social Media"],
     liveUrl: "https://www.linkedin.com/in/muhamad-zaidan30/",
     liveLabel: "Lihat Dokumentasi Kegiatan",
     deliverables: [
       {
-        title: "Key Visual Acara & Seminar Nasional",
-        detail: "Materi visual komprehensif mulai dari poster pengumuman, backdrop panggung, hingga e-certificate resmi.",
+        title: "Materi acara",
+        detail: "Poster, backdrop, dan sertifikat kegiatan.",
       },
       {
-        title: "Infografis Edukasi Rekayasa Perangkat Lunak",
-        detail: "Penyederhanaan materi teknis pemrograman dan tren industri IT menjadi konten carousel visual yang mudah dipahami.",
+        title: "Konten edukasi",
+        detail: "Infografis seputar teknologi informasi dan rekayasa perangkat lunak.",
       },
       {
-        title: "Rebranding Feed Media Sosial",
-        detail: "Standardisasi grid template Instagram yang menaikkan konsistensi visual dan interaksi follower secara terukur.",
+        title: "Publikasi media sosial",
+        detail: "Template dan konten untuk kanal media sosial organisasi.",
       },
       {
-        title: "Kolaborasi Tim Lintas Divisi",
-        detail: "Bekerja sama secara intensif bersama tim Humas dan Acara dalam memenuhi kebutuhan materi publikasi tepat waktu.",
+        title: "Kolaborasi tim",
+        detail: "Koordinasi materi publikasi bersama divisi terkait.",
       },
     ],
     highlights: [
-      "Merancang identitas visual acara: logo event, backdrop panggung, dan merchandise",
-      "Memproduksi konten infografis edukasi seputar rekayasa perangkat lunak",
-      "Standardisasi format visual media sosial yang meningkatkan interaksi follower",
-      "Kerja sama lintas divisi dengan tim humas dalam tenggat waktu rilis yang ketat",
+      "Poster, backdrop, dan sertifikat acara",
+      "Infografis teknologi informasi",
+      "Konten dan template media sosial",
+      "Koordinasi dengan tim acara dan humas",
     ],
   },
   {
     id: "suarinara-vol-1-graphic-design",
-    title: "Suarinara Vol. 1 — Community Service Visual Identity & Field Campaign",
+    title: "SuariNara Vol. 1 Visual Identity & Field Campaign",
     category: "Volunteering & Visual Identity",
     role: "Head of Visual Design",
     clientOrContext: "Ekspedisi Pengabdian Desa Argosari (Lumajang)",
-    year: "2024",
+    year: "2026",
     timeline: "7 Hari Program Lapangan",
     description:
-      "Perancangan identitas visual program pengabdian masyarakat, modul edukasi kreatif anak-anak suku Tengger, dan materi dokumentasi lapangan di Desa Argosari, Lumajang.",
+      "Menyiapkan materi visual SuariNara Vol. 1 di Desa Argosari, Lumajang, termasuk modul anak dan kebutuhan komunikasi lapangan.",
     longDescription:
-      "Selama program pengabdian masyarakat 7 hari di lereng Gunung Bromo, memimpin perancangan materi visual kampanye sosial, buku modul ajar anak-anak, identitas seragam relawan, serta media dokumentasi publikasi.",
+      "Bertugas sebagai Head of Visual Design selama program pengabdian masyarakat SuariNara Vol. 1.",
     problemStatement:
-      "Program pengabdian di pelosok desa pegunungan membutuhkan media komunikasi visual yang ramah bagi warga lokal suku Tengger, materi belajar yang menarik untuk anak-anak pedesaan, serta dokumentasi yang representatif bagi pihak sponsor dan donatur.",
+      "Program membutuhkan materi edukasi untuk anak dan media informasi yang dapat digunakan selama kegiatan lapangan.",
     solution:
-      "Menyusun konsep visual yang terinspirasi dari kehangatan alam lereng Bromo dan keramahan masyarakat suku Tengger, diaplikasikan pada modul literasi bergambar, plang informasi desa, dan kampanye media sosial.",
-    image: "/projects/socialmedia.jpg",
+      "Membuat identitas visual, modul literasi bergambar, signage, dan materi publikasi kegiatan.",
+    image: "/projectserti/Suarinara Vol. 1 Community.jpg",
     tags: ["Identity System", "Editorial Layout", "Social Impact", "Field Campaign", "Print Media", "Community Service"],
     liveUrl: "https://www.linkedin.com/in/muhamad-zaidan30/",
     liveLabel: "Lihat Dokumentasi Pengabdian (LinkedIn)",
     deliverables: [
       {
-        title: "Sistem Identitas Visual Suarinara",
-        detail: "Desain logo kegiatan, tema palet warna bumi (earthy-warm), dan sistem tipografi yang merefleksikan nilai kepedulian sosial.",
+        title: "Identitas visual",
+        detail: "Logo, warna, dan tipografi untuk kegiatan SuariNara.",
       },
       {
-        title: "Buku Saku & Modul Literasi Anak",
-        detail: "Layout materi ajar interaktif bergambar yang digunakan relawan saat sesi belajar mengajar di SDN Argosari.",
+        title: "Modul anak",
+        detail: "Materi literasi bergambar untuk kegiatan belajar di SDN Argosari.",
       },
       {
-        title: "Media Komunikasi Lapangan & Fisik",
-        detail: "Produksi spanduk selamat datang, signage titik kegiatan desa, dan seragam lapangan relawan ekspedisi.",
+        title: "Materi lapangan",
+        detail: "Spanduk dan penanda lokasi kegiatan.",
       },
       {
-        title: "Dokumentasi & Laporan Dampak",
-        detail: "Kurasi foto harian dan penyusunan buklet laporan pertanggungjawaban untuk pihak kampus dan sponsor program.",
+        title: "Publikasi kegiatan",
+        detail: "Materi visual untuk dokumentasi dan publikasi program.",
       },
     ],
     highlights: [
-      "Bertanggung jawab atas konsep visual program pengabdian masyarakat",
-      "Membuat sistem visual untuk kebutuhan publikasi dan dokumentasi kegiatan",
-      "Merancang modul ajar literasi kreatif untuk siswa sekolah dasar setempat",
-      "Mendukung identitas visual kegiatan agar terlihat konsisten dan informatif",
+      "Identitas visual SuariNara Vol. 1",
+      "Modul literasi bergambar untuk anak-anak",
+      "Spanduk dan penanda kegiatan lapangan",
+      "Materi publikasi dan dokumentasi program",
+    ],
+  },
+  {
+    id: "cirval-circular-valorization-platform",
+    title: "CIRVAL Circular Valorization Platform",
+    category: "Competition Prototype",
+    role: "Perancangan & Pengembangan",
+    clientOrContext: "Proyek Lomba · CIRVAL",
+    year: "2026",
+    timeline: "Prototipe 2026",
+    description:
+      "Prototipe untuk lomba yang memetakan opsi pemanfaatan sisa pangan, mencocokkan mitra pengolah, dan menelusuri transaksi. Data dampak pada demo masih simulasi.",
+    longDescription:
+      "CIRVAL menghubungkan industri pangan dengan mitra pengolah melalui alur profiling residu, rekomendasi jalur, pencocokan, dan pelacakan.",
+    problemStatement:
+      "Informasi tentang jenis residu, opsi pengolahan, dan calon mitra perlu dilihat bersama sebelum jalur pemanfaatan dipilih.",
+    solution:
+      "Membuat prototipe yang merangkum profil residu, lima jalur valorisasi, pencocokan mitra, dan jejak transaksi dalam satu platform.",
+    image: "/projectserti/cirval.png",
+    tags: ["Circular Economy", "Food Residuals", "Decision Engine", "Pathway Matching", "Traceability"],
+    liveUrl: "https://cirval-platform.vercel.app/",
+    liveLabel: "Lihat Prototipe CIRVAL",
+    deliverables: [
+      {
+        title: "Profil residu",
+        detail: "Mencatat karakteristik sisa pangan dalam Resource Passport.",
+      },
+      {
+        title: "Decision Engine",
+        detail: "Membandingkan lima jalur pemanfaatan residu.",
+      },
+      {
+        title: "Pencocokan mitra",
+        detail: "Menampilkan mitra pengolah sesuai jalur yang dipilih.",
+      },
+      {
+        title: "Jejak transaksi",
+        detail: "Mencatat proses pemanfaatan hingga menjadi sumber daya sekunder.",
+      },
+    ],
+    highlights: [
+      "Profiling residu dan Resource Passport",
+      "Lima jalur rekomendasi pemanfaatan",
+      "Pencocokan industri dengan mitra pengolah",
+      "Pelacakan transaksi dalam prototipe",
     ],
   },
 ];
@@ -325,7 +370,7 @@ export const certificatesData: CertificateItem[] = [
     issuer: "Suku Dinas Pemuda dan Olahraga (Sudinpora) Jakarta Utara",
     date: "Juli 2026",
     credentialId: "2446/P0.01.03",
-    image: "/projects/uiux.jpg",
+    image: "/projectserti/serifikatsudin.jpg",
     credentialUrl: "https://www.linkedin.com/in/muhamad-zaidan30/",
     skills: ["Graphic Design", "Editorial Poster", "Adobe Photoshop", "Visual Direction", "Layout & Typography"],
     description:
@@ -343,7 +388,7 @@ export const certificatesData: CertificateItem[] = [
     issuer: "Badan Nasional Sertifikasi Profesi (BNSP)",
     date: "Mei 2024 — Mei 2027",
     credentialId: "741302166000000222024",
-    image: "/projects/branding.jpg",
+    image: "/projectserti/sertibnsp.jpg",
     credentialUrl: "https://www.linkedin.com/in/muhamad-zaidan30/",
     skills: ["Standar SKKNI Desain", "Komposisi & Tata Rupa", "Adobe Creative Suite", "Preparasi Output Cetak", "Manajemen Aset Desain"],
     description:
@@ -354,6 +399,59 @@ export const certificatesData: CertificateItem[] = [
       "Menyusun tata letak (layout) dan manajemen aset visual terstruktur",
       "Mempersiapkan materi final artwork (FA) untuk kebutuhan cetak maupun digital",
     ],
+  },
+  {
+    id: "cert-himavo-micro-it-multimedia",
+    title: "Sertifikat Keanggotaan Himavo Micro IT Divisi Multimedia",
+    issuer: "Himavo Micro IT · IPB University",
+    date: "Periode 2024/2025",
+    credentialId: "072/A.1/MICRO/XII/25",
+    image: "/projectserti/sertifikatmicroit.jpg",
+    skills: ["Multimedia", "Event Branding", "Visual Design", "Community Activities"],
+    description:
+      "Sertifikat keanggotaan atas dedikasi selama satu tahun sebagai anggota Divisi Multimedia Himavo Micro IT periode 2024/2025.",
+    competencies: [
+      "Mendukung kebutuhan multimedia dan visual komunitas",
+      "Berkontribusi dalam publikasi dan kegiatan Himavo Micro IT",
+      "Menjalankan tanggung jawab sebagai anggota Divisi Multimedia",
+    ],
+  },
+  {
+    id: "cert-suarinara-vol-1-volunteer",
+    title: "Sertifikat Penghargaan Relawan SuariNara Vol. 1",
+    issuer: "SuariNara Vol. 1",
+    date: "23 Juli 2026",
+    credentialId: "01.012/YBEI/SN/VII/2026",
+    image: "/projectserti/sertifikatsuarinara.jpg",
+    skills: ["Community Service", "Volunteer Work", "Community Empowerment", "Field Campaign"],
+    description:
+      "Sertifikat penghargaan atas dedikasi dan kontribusi sebagai relawan dalam kegiatan pemberdayaan masyarakat SuariNara Vol. 1 pada 23–29 Juli 2026.",
+    competencies: [
+      "Berpartisipasi dalam kegiatan pemberdayaan masyarakat",
+      "Berkontribusi sebagai relawan selama program lapangan",
+      "Mendukung pelaksanaan kegiatan sosial SuariNara Vol. 1",
+    ],
+  },
+  {
+    id: "cert-portal-7-digital-poster-semifinalist",
+    title: "Semifinalis Digital Poster Portal 7 International Competition",
+    issuer: "BEM Sekolah Vokasi IPB University · Portal 7",
+    date: "11 Oktober 2025",
+    credentialId: "021/A/BEM SV IPB/X/2025",
+    image: "/projectserti/sertifikatportal7.jpeg",
+    skills: ["Digital Poster", "Graphic Design", "Visual Communication", "Competition"],
+    description:
+      "Penghargaan sebagai semifinalis kategori Digital Poster di Portal 7 International Competition, diselenggarakan BEM Sekolah Vokasi IPB pada 11 Oktober 2025.",
+  },
+  {
+    id: "cert-praktik-kerja-lapangan-imigrasi",
+    title: "Praktik Kerja Lapangan Kantor Imigrasi Jakarta Utara",
+    issuer: "Kantor Imigrasi Kelas I TPI Jakarta Utara",
+    date: "3 April – 8 Juni 2023",
+    image: "/projectserti/sertifikatpkl.jpg",
+    skills: ["Praktik Kerja Lapangan", "Administrasi", "Keimigrasian"],
+    description:
+      "Menyelesaikan praktik kerja lapangan selama dua bulan di Kantor Imigrasi Kelas I TPI Jakarta Utara.",
   },
 ];
 
