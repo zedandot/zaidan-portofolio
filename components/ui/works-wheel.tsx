@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 
 export interface WorksWheelItem {
   title: string;
@@ -175,7 +176,7 @@ export function WorksWheel({ items, label = "Works", className = "", ...props }:
               style={{ width: metrics.width, height: metrics.height, marginLeft: -metrics.width / 2, marginTop: -metrics.height / 2 }}
             >
               <div className="relative block size-full overflow-hidden rounded-xl border border-white/70 bg-muted shadow-[0_18px_40px_-18px_rgba(17,17,17,0.45)]">
-                <img src={item.image} alt="" draggable={false} className="size-full object-cover" />
+                <Image src={item.image} alt={item.title} fill sizes="400px" className="size-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/5 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-5 text-white sm:p-7">
                   {item.subtitle && <p className="mb-2 text-[0.65rem] font-medium uppercase tracking-[0.18em] text-white/75">{item.subtitle}</p>}

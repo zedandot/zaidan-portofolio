@@ -29,13 +29,13 @@ export default function CoverflowCarousel({
   slides,
   onSlideChange,
   className = "",
-  cardWidth = "clamp(170px, 58vw, 310px)",
+  cardWidth = "clamp(180px, 56vw, 320px)",
   cardHeightRatio = 1,
   imageFit = "cover",
-  rotate = 42,
-  depth = 0.58,
+  rotate = 40,
+  depth = 0.55,
   gap = 0.055,
-  label = "Selected projects",
+  label = "Selected projects carousel",
 }: CoverflowCarouselProps) {
   const count = slides.length;
   const frameRef = React.useRef<HTMLDivElement>(null);
@@ -74,14 +74,14 @@ export default function CoverflowCarousel({
 
       const distance = Math.abs(offset);
       const ramp = Math.pow(distance, 0.56);
-      const tilt = Math.min(rotate * ramp, 82) * Math.sign(offset);
+      const tilt = Math.min(rotate * ramp, 80) * Math.sign(offset);
 
       card.style.transform =
         `translateX(calc(-50% + ${offset * pitch}px)) ` +
         `translateZ(${-depth * width * ramp}px) rotateY(${-tilt}deg)`;
 
       const edge = Math.min(1, Math.max(0, count / 2 - distance));
-      card.style.opacity = String(Math.max(0, 1 - 0.1 * distance) * edge);
+      card.style.opacity = String(Math.max(0, 1 - 0.12 * distance) * edge);
       card.style.zIndex = String(100 - Math.round(distance));
       card.style.pointerEvents = edge > 0 ? "auto" : "none";
     });
@@ -228,11 +228,12 @@ export default function CoverflowCarousel({
               nudge(1);
             }
           }}
-          className="cursor-grab overflow-hidden py-9 outline-none focus-visible:ring-2 focus-visible:ring-accent active:cursor-grabbing sm:py-12"
+          className="cursor-grab overflow-hidden py-8 outline-none focus-visible:ring-2 focus-visible:ring-accent active:cursor-grabbing sm:py-12"
           style={{
             perspective: "calc(var(--cf-card) * 3)",
             touchAction: "pan-y",
           }}
+          aria-label="Use Left and Right arrow keys to navigate carousel"
         >
           <div
             className="relative mx-auto select-none"
@@ -251,67 +252,83 @@ export default function CoverflowCarousel({
                 aria-roledescription="slide"
                 aria-label={`${index + 1} of ${count}: ${slide.title}`}
                 aria-current={index === selected ? "true" : undefined}
-                className="group absolute left-1/2 top-0 overflow-hidden rounded-2xl border border-[#D4D1CA] bg-[#E8E5DE] shadow-[0_24px_60px_rgba(17,17,17,0.16)] will-change-transform sm:rounded-3xl"
+                className="group absolute left-1/2 top-0 overflow-hidden rounded-2xl border border-[#D4D1CA] bg-[#E8E5DE] shadow-[0_20px_50px_rgba(17,17,17,0.12)] will-change-transform sm:rounded-3xl cursor-pointer"
                 style={{
                   width: "var(--cf-card)",
                   height: `calc(var(--cf-card) * ${cardHeightRatio})`,
                   aspectRatio: `${1 / cardHeightRatio} / 1`,
+                }}
+                onClick={() => {
+                  if (index !== selected) {
+                    settle(index);
+                  }
                 }}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={slide.src}
                   alt={slide.alt}
+                  loading={index < 3 ? "eager" : "lazy"}
+                  decoding="async"
                   draggable={false}
                   className={`h-full w-full select-none ${
-                    imageFit === "contain" ? "object-contain" : "object-cover"
-                  } transition-transform duration-500 group-hover:scale-[1.035]`}
+                    imageFit === "contain" ? "object-contain bg-white/40 p-2" : "object-cover"
+                  } transition-transform duration-500 group-hover:scale-[1.03]`}
                 />
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/35 to-transparent opacity-80" />
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/40 to-transparent opacity-80" />
               </div>
             ))}
           </div>
         </div>
 
+        {/* Previous Button */}
         <button
           type="button"
-          aria-label="Project sebelumnya"
+          aria-label="Previous item"
           onClick={() => nudge(-1)}
-          className="absolute left-1 top-1/2 z-[200] -translate-y-1/2 rounded-full border border-[#D4D1CA] bg-[#FFFAF0]/90 p-2.5 text-foreground shadow-md backdrop-blur transition hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:left-3 sm:p-3"
+          className="absolute left-1 top-1/2 z-[200] -translate-y-1/2 min-h-11 min-w-11 rounded-full border border-[#D4D1CA] bg-[#FFFAF0]/95 p-3 text-foreground shadow-md backdrop-blur transition hover:border-accent hover:text-accent hover:scale-105 active:scale-95 focus-visible:ring-2 focus-visible:ring-accent sm:left-3"
         >
           <svg viewBox="0 0 24 24" className="size-4 sm:size-5" fill="none" aria-hidden="true">
-            <path d="m15 18-6-6 6-6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="m15 18-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
+
+        {/* Next Button */}
         <button
           type="button"
-          aria-label="Project berikutnya"
+          aria-label="Next item"
           onClick={() => nudge(1)}
-          className="absolute right-1 top-1/2 z-[200] -translate-y-1/2 rounded-full border border-[#D4D1CA] bg-[#FFFAF0]/90 p-2.5 text-foreground shadow-md backdrop-blur transition hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:right-3 sm:p-3"
+          className="absolute right-1 top-1/2 z-[200] -translate-y-1/2 min-h-11 min-w-11 rounded-full border border-[#D4D1CA] bg-[#FFFAF0]/95 p-3 text-foreground shadow-md backdrop-blur transition hover:border-accent hover:text-accent hover:scale-105 active:scale-95 focus-visible:ring-2 focus-visible:ring-accent sm:right-3"
         >
           <svg viewBox="0 0 24 24" className="size-4 sm:size-5" fill="none" aria-hidden="true">
-            <path d="m9 18 6-6-6-6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="m9 18 6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
       </div>
 
-      <div key={selected} className="mx-auto mt-1 max-w-2xl px-8 text-center animate-in fade-in duration-300 sm:px-12">
-        <p className="font-display text-lg font-700 tracking-tight text-foreground sm:text-2xl">
+      {/* Slide Heading & Subtitle with aria-live */}
+      <div
+        key={selected}
+        aria-live="polite"
+        className="mx-auto mt-2 max-w-2xl px-6 text-center animate-in fade-in duration-300 sm:px-12"
+      >
+        <p className="font-display text-xl font-bold tracking-tight text-foreground sm:text-2xl">
           {slides[selected]?.title}
         </p>
         {slides[selected]?.subtitle && (
-          <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-accent sm:text-xs">
+          <p className="mt-1 text-[11px] font-bold uppercase tracking-[0.16em] text-accent sm:text-xs">
             {slides[selected].subtitle}
           </p>
         )}
       </div>
 
-      <div className="mt-5 flex items-center justify-center gap-2" aria-label="Pilih project">
+      {/* Pagination Controls */}
+      <div className="mt-4 flex items-center justify-center gap-1.5" aria-label="Slide pagination">
         {slides.map((slide, index) => (
           <button
             key={`${slide.title}-pagination`}
             type="button"
-            aria-label={`Lihat project ${index + 1}: ${slide.title}`}
+            aria-label={`View slide ${index + 1}: ${slide.title}`}
             aria-current={index === selected ? "true" : undefined}
             onClick={() => {
               const current = selected;
@@ -322,14 +339,18 @@ export default function CoverflowCarousel({
               if (current === index && !animationRef.current) return;
               settle(destination);
             }}
-            className={`h-1.5 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
-              index === selected ? "w-7 bg-accent" : "w-1.5 bg-[#B0ADA6] hover:bg-foreground/50"
-            }`}
-          />
+            className="p-1.5 rounded-full focus-visible:ring-2 focus-visible:ring-accent"
+          >
+            <span
+              className={`block h-1.5 rounded-full transition-all duration-300 ${
+                index === selected ? "w-7 bg-accent" : "w-1.5 bg-[#B0ADA6] hover:bg-foreground/50"
+              }`}
+            />
+          </button>
         ))}
       </div>
-      <p className="mt-3 text-center text-[10px] font-medium uppercase tracking-[0.2em] text-gray-400">
-        Geser untuk melihat project
+      <p className="mt-2 text-center text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-500">
+        Drag or swipe to explore
       </p>
     </div>
   );

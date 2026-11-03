@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence, useScroll } from "framer-motion";
 import { useLenis } from "lenis/react";
 
@@ -20,7 +20,7 @@ export default function Navbar() {
   const lenis = useLenis();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
+    const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -36,7 +36,7 @@ export default function Navbar() {
           .reverse()
           .find((link) => {
             const section = document.querySelector<HTMLElement>(link.href);
-            return section && section.getBoundingClientRect().top <= 150;
+            return section && section.getBoundingClientRect().top <= 160;
           });
         setActiveSection(active?.href ?? "");
       });
@@ -50,6 +50,17 @@ export default function Navbar() {
     };
   }, []);
 
+  // Close mobile menu on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && mobileOpen) {
+        setMobileOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [mobileOpen]);
+
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
     if (mobileOpen) {
@@ -62,30 +73,35 @@ export default function Navbar() {
     };
   }, [mobileOpen]);
 
-  const handleNavClick = (href: string) => {
-    setMobileOpen(false);
-    const el = document.querySelector<HTMLElement>(href);
-    if (el) {
-      lenis?.scrollTo(el, { offset: -96 });
-    }
-  };
+  const handleNavClick = useCallback(
+    (href: string) => {
+      setMobileOpen(false);
+      const el = document.querySelector<HTMLElement>(href);
+      if (el) {
+        lenis?.scrollTo(el, { offset: -96 });
+      }
+    },
+    [lenis]
+  );
 
   return (
     <>
+      {/* Top thin scroll progress indicator */}
       <motion.div
         aria-hidden="true"
-        className="fixed left-0 right-0 top-0 z-[60] h-[2px] origin-left bg-accent"
+        className="fixed left-0 right-0 top-0 z-[60] h-[2.5px] origin-left bg-accent shadow-[0_0_8px_rgba(255,77,0,0.5)]"
         style={{ scaleX: scrollYProgress }}
       />
+
       <motion.nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
-            ? "bg-background/95 border-b border-gray-200/70 py-3 shadow-[0_10px_28px_rgba(17,17,17,0.05)]"
+            ? "bg-[#f4f1ea]/90 backdrop-blur-md border-b border-[#D4D1CA]/80 py-3.5 shadow-[0_8px_30px_rgba(17,17,17,0.04)]"
             : "bg-transparent py-6"
         }`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       >
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
           {/* Logo */}
@@ -95,60 +111,74 @@ export default function Navbar() {
               event.preventDefault();
               lenis?.scrollTo(0);
             }}
-            className="font-display font-900 text-2xl md:text-3xl tracking-[-0.03em] text-foreground hover:text-accent transition-colors"
+            className="group flex items-center gap-1.5 focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
+            aria-label="ZED Portfolio Home"
           >
-            ZED<span className="text-accent">.</span>
+            <span className="font-display font-900 text-2xl md:text-3xl tracking-[-0.04em] text-foreground group-hover:text-accent transition-colors">
+              ZED
+            </span>
+            <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
           </a>
 
           {/* Desktop Nav Links */}
-          <div className="hidden md:flex items-center gap-10">
-            {navLinks.map((link) => (
-              <motion.a
-                key={link.label}
-                href={link.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleNavClick(link.href);
-                }}
-                aria-current={activeSection === link.href ? "location" : undefined}
-                className={`nav-link text-xs font-semibold tracking-[0.15em] uppercase text-foreground/80 hover:text-accent transition-colors duration-200 ${
-                  activeSection === link.href ? "is-active" : ""
-                }`}
-                whileHover={{ y: -2 }}
-              >
-                {link.label}
-              </motion.a>
-            ))}
+          <div className="hidden md:flex items-center gap-9" role="navigation" aria-label="Main Navigation">
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.href;
+              return (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick(link.href);
+                  }}
+                  aria-current={isActive ? "location" : undefined}
+                  className={`nav-link text-xs font-semibold tracking-[0.16em] uppercase transition-colors duration-200 py-1 ${
+                    isActive
+                      ? "text-accent font-bold"
+                      : "text-foreground/80 hover:text-accent"
+                  }`}
+                >
+                  {link.label}
+                </a>
+              );
+            })}
+
+            {/* Quick Contact CTA Button */}
+            <a
+              href="#contact"
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavClick("#contact");
+              }}
+              className="ml-2 px-4 py-2 text-[11px] font-bold tracking-[0.14em] uppercase rounded-full border border-foreground/30 text-foreground hover:bg-foreground hover:text-background hover:border-foreground transition-all duration-200 focus-visible:ring-2 focus-visible:ring-accent"
+            >
+              Let&apos;s Talk
+            </a>
           </div>
 
           {/* Mobile hamburger button */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden flex flex-col items-center justify-center w-10 h-10 gap-1.5 focus:outline-none"
-            aria-label="Toggle menu"
+            className="md:hidden flex flex-col items-center justify-center w-10 h-10 gap-1.5 rounded-lg focus-visible:ring-2 focus-visible:ring-accent"
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-navigation"
           >
             <motion.span
-              className="block w-6 h-[1.5px] bg-foreground origin-center"
-              animate={
-                mobileOpen
-                  ? { rotate: 45, y: 6 }
-                  : { rotate: 0, y: 0 }
-              }
-              transition={{ duration: 0.3 }}
+              className="block w-6 h-[2px] bg-foreground origin-center"
+              animate={mobileOpen ? { rotate: 45, y: 7 } : { rotate: 0, y: 0 }}
+              transition={{ duration: 0.25 }}
             />
             <motion.span
-              className="block w-6 h-[1.5px] bg-foreground"
+              className="block w-6 h-[2px] bg-foreground"
               animate={mobileOpen ? { opacity: 0 } : { opacity: 1 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.15 }}
             />
             <motion.span
-              className="block w-6 h-[1.5px] bg-foreground origin-center"
-              animate={
-                mobileOpen
-                  ? { rotate: -45, y: -6 }
-                  : { rotate: 0, y: 0 }
-              }
-              transition={{ duration: 0.3 }}
+              className="block w-6 h-[2px] bg-foreground origin-center"
+              animate={mobileOpen ? { rotate: -45, y: -7 } : { rotate: 0, y: 0 }}
+              transition={{ duration: 0.25 }}
             />
           </button>
         </div>
@@ -158,44 +188,59 @@ export default function Navbar() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            className="fixed inset-0 z-40 bg-background px-6 pt-28 pb-8"
-            initial={{ opacity: 0, y: -12 }}
+            id="mobile-navigation"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile Navigation"
+            className="fixed inset-0 z-40 bg-[#f4f1ea] px-6 pt-24 pb-8 flex flex-col justify-between"
+            initial={{ opacity: 0, y: -16 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.28 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
           >
-            <div className="mx-auto flex h-full max-w-sm flex-col justify-between">
-              <div className="space-y-3">
-                {navLinks.map((link, i) => (
-                  <motion.a
-                    key={link.label}
-                    href={link.href}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleNavClick(link.href);
-                    }}
-                    aria-current={activeSection === link.href ? "location" : undefined}
-                    className={`group flex min-h-16 items-center justify-between rounded-3xl border border-gray-200 bg-white/45 px-5 font-display text-3xl font-800 tracking-[-0.04em] text-foreground transition-colors hover:border-accent hover:text-accent ${
-                      activeSection === link.href ? "border-accent text-accent" : ""
-                    }`}
-                    initial={{ opacity: 0, y: 22 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 14 }}
-                    transition={{ delay: i * 0.055, duration: 0.34 }}
-                  >
-                    <span>{link.label}</span>
-                    <span className="text-base text-accent transition-transform group-hover:translate-x-1">→</span>
-                  </motion.a>
-                ))}
+            <div className="mx-auto flex h-full w-full max-w-sm flex-col justify-between">
+              <div className="space-y-2.5 pt-4">
+                <span className="block text-[10px] font-bold uppercase tracking-[0.2em] text-accent mb-4">
+                  Navigation
+                </span>
+                {navLinks.map((link, i) => {
+                  const isActive = activeSection === link.href;
+                  return (
+                    <motion.a
+                      key={link.label}
+                      href={link.href}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleNavClick(link.href);
+                      }}
+                      aria-current={isActive ? "location" : undefined}
+                      className={`group flex min-h-14 items-center justify-between rounded-2xl border px-5 font-display text-2xl font-800 tracking-[-0.03em] transition-all duration-200 ${
+                        isActive
+                          ? "border-accent bg-accent/10 text-accent shadow-xs"
+                          : "border-[#D4D1CA] bg-white/50 text-foreground hover:border-accent hover:text-accent"
+                      }`}
+                      initial={{ opacity: 0, y: 16 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      transition={{ delay: i * 0.04, duration: 0.25 }}
+                    >
+                      <span>{link.label}</span>
+                      <span className="text-sm text-accent transition-transform group-hover:translate-x-1">
+                        →
+                      </span>
+                    </motion.a>
+                  );
+                })}
               </div>
 
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.28 }}
-                className="text-center text-[11px] uppercase tracking-[0.18em] text-gray-400"
+                transition={{ delay: 0.25 }}
+                className="pt-6 border-t border-[#D4D1CA] flex items-center justify-between text-xs text-gray-500"
               >
-                Tap a section to explore
+                <span>Bogor, ID</span>
+                <span className="text-accent font-semibold">Muhamad Zaidan</span>
               </motion.div>
             </div>
           </motion.div>

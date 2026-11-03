@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -158,10 +159,10 @@ export function Timeline({
             <button
               type="button"
               onClick={() => setMobileViewMode("swipe")}
-              className={`px-3 py-1 rounded-full transition-all duration-200 ${
+              className={`px-3.5 py-1 rounded-full transition-all duration-200 focus-visible:ring-2 focus-visible:ring-accent ${
                 mobileViewMode === "swipe"
-                  ? "bg-foreground text-background shadow-xs"
-                  : "text-gray-500 hover:text-foreground"
+                  ? "bg-foreground text-background shadow-xs font-bold"
+                  : "text-gray-600 hover:text-foreground"
               }`}
             >
               Swipe
@@ -169,10 +170,10 @@ export function Timeline({
             <button
               type="button"
               onClick={() => setMobileViewMode("list")}
-              className={`px-3 py-1 rounded-full transition-all duration-200 ${
+              className={`px-3.5 py-1 rounded-full transition-all duration-200 focus-visible:ring-2 focus-visible:ring-accent ${
                 mobileViewMode === "list"
-                  ? "bg-foreground text-background shadow-xs"
-                  : "text-gray-500 hover:text-foreground"
+                  ? "bg-foreground text-background shadow-xs font-bold"
+                  : "text-gray-600 hover:text-foreground"
               }`}
             >
               List
@@ -186,15 +187,15 @@ export function Timeline({
                 {String(activeMobileIndex + 1).padStart(2, "0")}
                 <span className="text-gray-400 font-normal"> / {String(items.length).padStart(2, "0")}</span>
               </span>
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1.5">
                 <button
                   type="button"
                   onClick={handlePrev}
                   disabled={activeMobileIndex === 0}
-                  aria-label="Previous experience"
-                  className="w-7 h-7 rounded-full flex items-center justify-center border border-[#D4D1CA] bg-white/60 text-foreground disabled:opacity-30 disabled:pointer-events-none transition-colors"
+                  aria-label="Previous experience item"
+                  className="w-8 h-8 rounded-full flex items-center justify-center border border-[#D4D1CA] bg-white/80 text-foreground disabled:opacity-30 disabled:pointer-events-none transition-colors hover:border-accent hover:text-accent focus-visible:ring-2 focus-visible:ring-accent"
                 >
-                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <polyline points="10 12 6 8 10 4" />
                   </svg>
                 </button>
@@ -202,10 +203,10 @@ export function Timeline({
                   type="button"
                   onClick={handleNext}
                   disabled={activeMobileIndex === items.length - 1}
-                  aria-label="Next experience"
-                  className="w-7 h-7 rounded-full flex items-center justify-center border border-[#D4D1CA] bg-white/60 text-foreground disabled:opacity-30 disabled:pointer-events-none transition-colors"
+                  aria-label="Next experience item"
+                  className="w-8 h-8 rounded-full flex items-center justify-center border border-[#D4D1CA] bg-white/80 text-foreground disabled:opacity-30 disabled:pointer-events-none transition-colors hover:border-accent hover:text-accent focus-visible:ring-2 focus-visible:ring-accent"
                 >
-                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <polyline points="6 12 10 8 6 4" />
                   </svg>
                 </button>
@@ -239,18 +240,20 @@ export function Timeline({
                   </div>
 
                   {/* Card Content */}
-                  <div className="surface-card flex-1 flex flex-col justify-between p-5 rounded-2xl border border-gray-200/90 shadow-xs">
+                  <div className="surface-card flex-1 flex flex-col justify-between p-5 rounded-2xl border border-[#D4D1CA] shadow-2xs">
                     {item.image && (
                       <div className="relative h-32 w-full overflow-hidden rounded-xl bg-gray-100 mb-4">
-                        <img
+                        <Image
                           src={item.image}
                           alt={item.imageAlt ?? item.title}
-                          className="h-full w-full object-cover"
+                          fill
+                          sizes="(max-width: 640px) 80vw, 320px"
+                          className="object-cover"
                         />
                       </div>
                     )}
                     <div>
-                      <h3 className="font-display text-lg font-700 leading-snug tracking-[-0.02em] text-foreground mb-2">
+                      <h3 className="font-display text-lg font-bold leading-snug tracking-[-0.02em] text-foreground mb-2">
                         {item.title}
                       </h3>
                       <p className="text-xs leading-relaxed text-gray-600">
@@ -264,23 +267,27 @@ export function Timeline({
 
             {/* Pagination dots & hint */}
             <div className="flex flex-col items-center gap-2 mt-4">
-              <div className="flex items-center justify-center gap-1.5">
+              <div className="flex items-center justify-center gap-1.5" aria-label="Timeline navigation dots">
                 {items.map((item, i) => (
                   <button
                     key={`dot-${item.id}`}
                     type="button"
                     onClick={() => scrollToMobileItem(i)}
-                    aria-label={`Go to slide ${i + 1}`}
-                    className={`h-1.5 rounded-full transition-all duration-300 ${
-                      i === activeMobileIndex
-                        ? "w-6 bg-accent"
-                        : "w-1.5 bg-gray-300 hover:bg-gray-400"
-                    }`}
-                  />
+                    aria-label={`Go to item ${i + 1}`}
+                    className="p-1 rounded-full focus-visible:ring-2 focus-visible:ring-accent"
+                  >
+                    <span
+                      className={`block h-1.5 rounded-full transition-all duration-300 ${
+                        i === activeMobileIndex
+                          ? "w-6 bg-accent"
+                          : "w-1.5 bg-gray-300 hover:bg-gray-400"
+                      }`}
+                    />
+                  </button>
                 ))}
               </div>
-              <p className="text-[10px] uppercase tracking-[0.16em] text-gray-400">
-                Geser ke samping untuk melihat pengalaman
+              <p className="text-[10px] uppercase tracking-[0.16em] text-gray-400 font-semibold">
+                Swipe to explore career milestones
               </p>
             </div>
           </div>
@@ -289,16 +296,15 @@ export function Timeline({
           <div className="relative pl-6 space-y-6 before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-[2px] before:bg-gradient-to-b before:from-accent before:via-gray-300 before:to-gray-200">
             {items.map((item) => (
               <div key={`list-${item.id}`} className="relative group">
-                {/* Dot on line */}
                 <span
                   className="absolute -left-[19px] top-1.5 size-3 rounded-full bg-accent ring-4 ring-[#f4f1ea]"
                   aria-hidden="true"
                 />
-                <div className="surface-card p-5 rounded-2xl border border-gray-200/90 shadow-xs">
+                <div className="surface-card p-5 rounded-2xl border border-[#D4D1CA] shadow-2xs">
                   <span className="inline-block text-[10px] font-bold uppercase tracking-[0.16em] text-accent mb-1.5">
                     {item.date}
                   </span>
-                  <h3 className="font-display text-lg font-700 leading-snug tracking-[-0.02em] text-foreground mb-2">
+                  <h3 className="font-display text-lg font-bold leading-snug tracking-[-0.02em] text-foreground mb-2">
                     {item.title}
                   </h3>
                   <p className="text-xs leading-relaxed text-gray-600">
@@ -328,12 +334,13 @@ export function Timeline({
             className="relative flex h-full w-max items-stretch px-[6vw]"
           >
             {imageUrl && (
-              <div className="relative mr-[5vw] h-full w-[42vw] max-w-[34rem] shrink-0 overflow-hidden rounded-[1.5rem] border border-gray-200 bg-gray-100">
-                <img
+              <div className="relative mr-[5vw] h-full w-[42vw] max-w-[34rem] shrink-0 overflow-hidden rounded-[1.5rem] border border-[#D4D1CA] bg-gray-100 shadow-sm">
+                <Image
                   src={imageUrl}
                   alt={imageAlt}
-                  draggable={false}
-                  className="h-full w-full object-cover"
+                  fill
+                  sizes="45vw"
+                  className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/35 to-transparent" />
               </div>
@@ -349,7 +356,7 @@ export function Timeline({
                   className="relative h-full w-[48vw] lg:w-[34vw] max-w-[27rem] shrink-0 px-3"
                 >
                   <span
-                    className="absolute left-1/2 top-1/2 z-10 size-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent ring-4 ring-[#f4f1ea]"
+                    className="absolute left-1/2 top-1/2 z-10 size-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent ring-4 ring-[#f4f1ea]"
                     aria-hidden="true"
                   />
                   <span
@@ -371,7 +378,7 @@ export function Timeline({
             })}
           </div>
         </div>
-        <p className="mt-3 px-6 text-center text-[10px] uppercase tracking-[0.16em] text-gray-400">
+        <p className="mt-3 px-6 text-center text-[10px] uppercase tracking-[0.16em] text-gray-500 font-semibold">
           {reducedMotion ? "Scroll horizontally to explore" : "Keep scrolling to follow the timeline"}
         </p>
       </section>
@@ -381,14 +388,15 @@ export function Timeline({
 
 function TimelineCard({ item }: { item: TimelineItem }) {
   return (
-    <div className="surface-card w-full overflow-hidden rounded-2xl">
+    <div className="surface-card w-full overflow-hidden rounded-2xl border border-[#D4D1CA] hover:border-accent/40 transition-colors">
       {item.image && (
         <div className="relative h-28 overflow-hidden bg-gray-100 sm:h-36">
-          <img
+          <Image
             src={item.image}
-            alt={item.imageAlt ?? ""}
-            draggable={false}
-            className="h-full w-full object-cover"
+            alt={item.imageAlt ?? item.title}
+            fill
+            sizes="(max-width: 768px) 100vw, 400px"
+            className="object-cover"
           />
         </div>
       )}
@@ -396,7 +404,7 @@ function TimelineCard({ item }: { item: TimelineItem }) {
         <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.16em] text-accent sm:text-xs">
           {item.date}
         </p>
-        <h3 className="font-display text-lg font-700 leading-tight tracking-[-0.03em] text-foreground sm:text-xl">
+        <h3 className="font-display text-lg font-bold leading-tight tracking-[-0.03em] text-foreground sm:text-xl">
           {item.title}
         </h3>
         <p className="mt-2 line-clamp-3 text-xs leading-relaxed text-gray-600 sm:text-sm">
